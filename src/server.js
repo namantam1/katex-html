@@ -1,6 +1,6 @@
 const express = require("express");
 const { latexify } = require("./math");
-const katex = require('katex');
+const PORT = process.env.PORT || 3000
 
 const app = express();
 app.use(express.json());
@@ -37,6 +37,6 @@ app.post("/api/", (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-    console.log("listening on http://localhost:3000")
+app.listen(PORT, () => {
+    console.log(`listening on http://localhost:${PORT}`)
 })

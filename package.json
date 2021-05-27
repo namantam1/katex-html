@@ -4,15 +4,12 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/server.js localhost 8080"
+    "start": "node src/server.js"
   },
   "dependencies": {
     "express": "^4.17.1",
     "katex": "^0.13.11",
     "pug": "^3.0.2"
-  },
-  "devDependencies": {
-    "nodemon": "1.18.4"
   },
   "keywords": [
     "express",
