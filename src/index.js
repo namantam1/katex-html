@@ -3,16 +3,18 @@ const awake = require("heroku-awake");
 const cors = require('cors')
 const latexify = require("./math");
 const app = express();
-
 const http = require('http');
-const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
-
-
 // create express peer server
 const { ExpressPeerServer } = require('peer');
 
+const server = http.createServer(app);
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
 const peerServer = ExpressPeerServer(server);
 
 const PORT = process.env.PORT || 3000
