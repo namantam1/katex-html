@@ -1,11 +1,13 @@
 const express = require("express");
 const { latexify } = require("./math");
-const PORT = process.env.PORT || 3000
+var cors = require('cors')
 // create express peer server
 const ExpressPeerServer = require('peer').ExpressPeerServer;
+const PORT = process.env.PORT || 3000
 
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'pug')
