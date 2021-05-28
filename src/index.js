@@ -1,21 +1,25 @@
-const express = require('express');
 const awake = require("heroku-awake");
-const cors = require('cors')
-const latexify = require("./math");
-const app = express();
 const http = require('http');
-const { Server } = require("socket.io");
-// create express peer server
-const { ExpressPeerServer } = require('peer');
+
+const express = require('express');
+const app = express();
 
 const server = http.createServer(app);
-const io = new Server(server, {
+
+
+const cors = require('cors')
+const latexify = require("./math");
+// create express peer server
+const { ExpressPeerServer } = require('peer');
+const peerServer = ExpressPeerServer(server);
+
+const io = require("socket.io")(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"]
     }
 });
-const peerServer = ExpressPeerServer(server);
+
 
 const PORT = process.env.PORT || 3000
 
@@ -28,6 +32,20 @@ app.use('/peerjs', peerServer);
 
 app.set('view engine', 'pug')
 app.set('views', __dirname + '/views');
+
+
+const [socketioUpgradeListener, apolloUpgradeListener] = server.listeners('upgrade').slice(0);
+server.removeAllListeners('upgrade');
+server.on('upgrade', (req, socket, head) => {
+    const path = req.url;
+    if (path?.includes('socket.io'))
+        socketioUpgradeListener(req, socket, head);
+    else
+        apolloUpgradeListener(req, socket, head);
+});
+
+
+
 
 app.get("/", (req, res) => {
     return res.render("form");
@@ -61,6 +79,7 @@ app.post("/api/", (req, res) => {
 // Socket Connection
 
 io.on("connection", (socket) => {
+    console.log("connection...")
     socket.on("join-room", (roomID, userID, username) => {
         if (users[roomID]) users[roomID].push({ id: userID, name: username, video: true, audio: true });
         else users[roomID] = [{ id: userID, name: username, video: true, audio: true }];
