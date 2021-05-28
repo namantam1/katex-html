@@ -1,6 +1,6 @@
 const katex = require("katex");
 
-module.exports.latexify = (string, options) => {
+module.exports = (string, options) => {
     const regularExpression = /\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|\$[^$\\]*(?:\\.[^$\\]*)*\$/g;
     const blockRegularExpression = /\$\$[\s\S]+?\$\$|\\\[[\s\S]+?\\\]/g;
 
