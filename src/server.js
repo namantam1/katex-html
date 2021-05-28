@@ -46,7 +46,7 @@ app.post("/api/", (req, res) => {
 var server = require('http').createServer(app);
 
 // peerjs is the path that the peerjs server will be connected to.
-app.use('/peerjs', ExpressPeerServer(server));
+app.use('/peerjs/*', ExpressPeerServer(server));
 
 
 app.listen(PORT, () => {
