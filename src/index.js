@@ -2,7 +2,7 @@ const express = require("express");
 const { latexify } = require("./math");
 var cors = require('cors')
 // create express peer server
-const ExpressPeerServer = require('peer').ExpressPeerServer;
+const { ExpressPeerServer } = require('peer');
 const PORT = process.env.PORT || 3000
 
 
@@ -42,13 +42,10 @@ app.post("/api/", (req, res) => {
     })
 })
 
-// create a http server instance to listen to request
-var server = require('http').createServer(app);
 
-// peerjs is the path that the peerjs server will be connected to.
-app.use('/peerjs/*', ExpressPeerServer(server));
-
-
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`listening on http://localhost:${PORT}`)
 })
+
+// peerjs is the path that the peerjs server will be connected to.
+app.use('/peerjs', ExpressPeerServer(server));
