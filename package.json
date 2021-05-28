@@ -9,6 +9,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "katex": "^0.13.11",
+    "peer": "^0.6.1",
     "pug": "^3.0.2"
   },
   "keywords": [
